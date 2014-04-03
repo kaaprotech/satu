@@ -593,11 +593,10 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                         break;
 
                     case Set:
-                        out(3,
-                                "SatuUtil.reconcileKeys(ref." + methodNameForGetter(field) + "(), updated(" + BF + "." + field.getName() + ") ? " + field.getName() + "_ : " + REF + "." + methodNameForGetter(field) + "(),");
+                        out(3, "SatuUtil.reconcileKeys(ref." + methodNameForGetter(field) + "(), updated(" + BF + "." + field.getName() + ") ? " + field.getName() + "_ : " + REF + "." + methodNameForGetter(field) + "(),");
                         out(5, " new DeltaAppender<KeyDelta<" + field.getTypeArguments().getFirst() + ">>() {");
                         out(6, "@Override");
-                        out(6, "public void add(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
+                        out(6, "public void append(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
                         out(7, "deltaBuilder." + methodNameForAdd(field) + "(newDelta);");
                         out(6, "}");
                         out(5, "});");
@@ -609,7 +608,7 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                             out(4, "SatuUtil.reconcileKeyModelBuilderPairs(ref." + methodNameForGetter(field) + "(), " + field.getName() + "_,");
                             out(6, "new DeltaAppender<" + paramTypeForDeltaBuilderAddMethod(field) + ">() {");
                             out(7, "@Override");
-                            out(7, "public void add(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
+                            out(7, "public void append(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
                             out(8, "deltaBuilder." + methodNameForAdd(field) + "(newDelta);");
                             out(7, "}");
                             out(6, "});");
@@ -618,18 +617,17 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                             out(4, "SatuUtil.reconcileKeyModelPairs(ref." + methodNameForGetter(field) + "(), " + REF + "." + methodNameForGetter(field) + "(),");
                             out(6, "new DeltaAppender<" + paramTypeForDeltaBuilderAddMethod(field) + ">() {");
                             out(7, "@Override");
-                            out(7, "public void add(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
+                            out(7, "public void append(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
                             out(8, "deltaBuilder." + methodNameForAdd(field) + "(newDelta);");
                             out(7, "}");
                             out(6, "});");
                             out(3, "}");
                         }
                         else {
-                            out(3,
-                                    "SatuUtil.reconcileKeyValuePairs(ref." + methodNameForGetter(field) + "(), updated(" + BF + "." + field.getName() + ") ? " + field.getName() + "_ : " + REF + "." + methodNameForGetter(field) + "(),");
+                            out(3, "SatuUtil.reconcileKeyValuePairs(ref." + methodNameForGetter(field) + "(), updated(" + BF + "." + field.getName() + ") ? " + field.getName() + "_ : " + REF + "." + methodNameForGetter(field) + "(),");
                             out(5, "new DeltaAppender<" + paramTypeForDeltaBuilderAddMethod(field) + ">() {");
                             out(6, "@Override");
-                            out(6, "public void add(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
+                            out(6, "public void append(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
                             out(7, "deltaBuilder." + methodNameForAdd(field) + "(newDelta);");
                             out(6, "}");
                             out(5, "});");
