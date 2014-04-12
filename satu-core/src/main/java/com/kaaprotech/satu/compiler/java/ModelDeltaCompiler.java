@@ -121,11 +121,11 @@ public final class ModelDeltaCompiler extends AbstractModelCompiler {
 
             if (isMapValueTypeMutable(field)) {
                 out();
-                out(2, "public ImmutableList<" + field.getTypeArguments().get(1) + ".Delta>" + " " + methodNameForGetter(field) + "Flatten() {");
-                out(3, "return " + field.getName() + "_.collect(new Function<" + getDeltaFieldTypeForMap(field) + ", " + field.getTypeArguments().get(1) + ".Delta>() {");
+                out(2, "public ImmutableList<" + field.getTypeArgs().get(1) + ".Delta>" + " " + methodNameForGetter(field) + "Flatten() {");
+                out(3, "return " + field.getName() + "_.collect(new Function<" + getDeltaFieldTypeForMap(field) + ", " + field.getTypeArgs().get(1) + ".Delta>() {");
                 out(4, "private static final long serialVersionUID = 1L;");
                 out(4, "@Override");
-                out(4, "public " + field.getTypeArguments().get(1) + ".Delta valueOf(final " + getDeltaFieldTypeForMap(field) + " kvpDelta) {");
+                out(4, "public " + field.getTypeArgs().get(1) + ".Delta valueOf(final " + getDeltaFieldTypeForMap(field) + " kvpDelta) {");
                 out(5, "return kvpDelta.getValue();");
                 out(4, "}");
                 out(3, "});");

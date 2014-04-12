@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import com.gs.collections.impl.factory.Lists;
@@ -123,5 +124,30 @@ public class TestSatuToJava {
         assertEquals(DeltaType.ADD, delta3.getMapOfModelsField().getFirst().getDeltaType());
         assertEquals(SatuTestEnum.ThirdEnumMember, delta3.getMapOfModelsField().getFirst().getKey());
         assertEquals(childDelta, delta3.getMapOfModelsField().getFirst().getValue());
+    }
+
+    @Test
+    public void testModelWithNullModleField() {
+        final SatuTestModel base1 = SatuTestModel.newBuilder(1).build();
+        final SatuTestModel modelField = SatuTestModel.newBuilder(2).build();
+        final SatuTestModel base2 = base1.toBuilder().setModelField(modelField.toBuilder()).build();
+        assertNotNull(base2.getModelField());
+        assertEquals(base2.getModelField(), modelField);
+    }
+
+    @Test
+    public void testModelCollectionDeltasBasic() {
+        final SatuTestModel base1 = SatuTestModel.newBuilder(1).build();
+        final DateTime dt = new DateTime();
+        final SatuTestModel.Builder builder = base1.toBuilder()
+                .addSetOfImportedTypes(dt)
+                .addSetOfKeysField(KEY_1)
+                .putMapOfImportedTypes(dt, dt)
+                .putMapOfKeysField(SatuTestEnum.FirstEnumMember, KEY_2)
+                .putMapOfModelsField(SatuTestEnum.SecondEnumMember, SatuTestModel.newBuilder(2));
+        final SatuTestModel.Delta delta = builder.reconcile();
+        final SatuTestModel base2 = builder.build();
+        final SatuTestModel base3 = base1.toBuilder().applyDelta(delta).build();
+        assertEquals(base2, base3);
     }
 }

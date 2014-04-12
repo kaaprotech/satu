@@ -219,10 +219,10 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                 case Map:
                     if (isMapValueTypeMutable(field)) {
                         out();
-                        out(3, field.getName() + "_.forEachValue(new Procedure<" + field.getTypeArguments().get(1) + ".Builder>() {");
+                        out(3, field.getName() + "_.forEachValue(new Procedure<" + field.getTypeArgs().get(1) + ".Builder>() {");
                         out(4, "private static final long serialVersionUID = 1L;");
                         out(4, "@Override");
-                        out(4, "public void value(final " + field.getTypeArguments().get(1) + ".Builder builder) {");
+                        out(4, "public void value(final " + field.getTypeArgs().get(1) + ".Builder builder) {");
                         out(5, "if (builder != null) {");
                         out(6, "builder.init();");
                         out(5, "}");
@@ -260,15 +260,16 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
             @Override
             public void value(final Field field) {
                 out(3, "case " + field.getName() + ":");
-                out(4, "if (" + REF + " == null) {");
 
                 switch (field.getFieldTypeCategory()) {
                 case DeclaredType:
+                    out(4, "if (" + REF + " == null || " + REF + "." + methodNameForGetter(field) + "() == null) {");
                     out(5, field.getName() + "_ = null;");
                     break;
 
                 case Map:
                 case Set:
+                    out(4, "if (" + REF + " == null) {");
                     out(5, field.getName() + "_ = " + getMutableColOf(field) + ";");
                     break;
                 }
@@ -337,9 +338,33 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                     break;
                 }
 
+                if (field.getFieldTypeCategory() == FieldTypeCategory.Set) {
+                    out();
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForAdd(field) + "(final " + field.getTypeArgs().get(0) + " element) {");
+                    out(3, methodNameForGetter(field) + "().add(element);");
+                    out(3, "return this;");
+                    out(2, "}");
+                }
+
+                if (field.getFieldTypeCategory() == FieldTypeCategory.Map && !isMapValueTypeMutable(field)) {
+                    out();
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + field.getTypeArgs().get(0) + " key, final " + field.getTypeArgs().get(1) + " value) {");
+                    out(3, methodNameForGetter(field) + "().put(key, value);");
+                    out(3, "return this;");
+                    out(2, "}");
+                }
+
+                if (isMapValueTypeMutable(field)) {
+                    out();
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + field.getTypeArgs().get(0) + " key, final " + field.getTypeArgs().get(1) + ".Builder builder) {");
+                    out(3, methodNameForGetter(field) + "().put(key, builder);");
+                    out(3, "return this;");
+                    out(2, "}");
+                }
+
                 if (isMapKeySameAsMutableValueTypeKey(field)) {
                     out();
-                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForAddOrReplace(field) + "(final " + field.getTypeArguments().get(1) + ".Builder builder) {");
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForAddOrReplace(field) + "(final " + field.getTypeArgs().get(1) + ".Builder builder) {");
                     out(3, methodNameForGetter(field) + "().put(builder.getKey(), builder);");
                     out(3, "return this;");
                     out(2, "}");
@@ -594,7 +619,7 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
 
                     case Set:
                         out(3, "SatuUtil.reconcileKeys(ref." + methodNameForGetter(field) + "(), updated(" + BF + "." + field.getName() + ") ? " + field.getName() + "_ : " + REF + "." + methodNameForGetter(field) + "(),");
-                        out(5, " new DeltaAppender<KeyDelta<" + field.getTypeArguments().getFirst() + ">>() {");
+                        out(5, " new DeltaAppender<KeyDelta<" + field.getTypeArgs().getFirst() + ">>() {");
                         out(6, "@Override");
                         out(6, "public void append(final " + paramTypeForDeltaBuilderAddMethod(field) + " newDelta) {");
                         out(7, "deltaBuilder." + methodNameForAdd(field) + "(newDelta);");

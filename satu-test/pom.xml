@@ -21,13 +21,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kaaprotech</groupId>
   <artifactId>satu-test</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <parent>
     <groupId>com.kaaprotech</groupId>
     <artifactId>satu</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -45,7 +45,7 @@
       <plugin>
         <groupId>com.kaaprotech</groupId>
         <artifactId>satu-maven-plugin</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
         <executions>
           <execution>
             <goals>
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>com.kaaprotech</groupId>
       <artifactId>satu-runtime-java</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

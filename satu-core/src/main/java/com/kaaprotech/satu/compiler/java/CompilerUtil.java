@@ -73,9 +73,9 @@ public final class CompilerUtil {
 		case DeclaredType:
 			return field.getTypeName();
 		case Set:
-			return "ImmutableSet<" + field.getTypeArguments().get(0) + ">";
+			return "ImmutableSet<" + field.getTypeArgs().get(0) + ">";
 		case Map:
-			return "ImmutableMap<" + field.getTypeArguments().get(0) + ", " + field.getTypeArguments().get(1) + ">";
+			return "ImmutableMap<" + field.getTypeArgs().get(0) + ", " + field.getTypeArgs().get(1) + ">";
 		default:
 			throw new RuntimeException("Unexpected enum " + field.getFieldTypeCategory());
 		}

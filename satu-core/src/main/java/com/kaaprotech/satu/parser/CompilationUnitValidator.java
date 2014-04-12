@@ -120,7 +120,7 @@ public final class CompilationUnitValidator {
         }).forEach(new Procedure<Field>() {
             @Override
             public void value(final Field mapField) {
-                final String keyTypeArg = mapField.getTypeArguments().getFirst();
+                final String keyTypeArg = mapField.getTypeArgs().getFirst();
                 // Primitive and Imported types are valid keys
                 if (!primitiveTypes_.contains(keyTypeArg.toLowerCase()) && !importedTypes_.contains(keyTypeArg.toLowerCase())) {
                     final DeclaredType dt = declaredTypeMap.get(keyTypeArg);
@@ -135,7 +135,7 @@ public final class CompilationUnitValidator {
                         throw new RuntimeException("Map key type " + keyTypeArg + " invalid for field " + declaredType.getName() + "." + mapField.getName());
                     }
                 }
-                final String valueTypeArg = mapField.getTypeArguments().get(1);
+                final String valueTypeArg = mapField.getTypeArgs().get(1);
                 if (!primitiveTypes_.contains(valueTypeArg.toLowerCase()) && !importedTypes_.contains(valueTypeArg.toLowerCase())) {
                     final DeclaredType dt = declaredTypeMap.get(valueTypeArg);
                     if (dt == null) {
@@ -155,7 +155,7 @@ public final class CompilationUnitValidator {
         }).forEach(new Procedure<Field>() {
             @Override
             public void value(final Field setField) {
-                final String elementTypeArg = setField.getTypeArguments().getFirst();
+                final String elementTypeArg = setField.getTypeArgs().getFirst();
                 if (!primitiveTypes_.contains(elementTypeArg.toLowerCase()) && !importedTypes_.contains(elementTypeArg.toLowerCase())) {
                     final DeclaredType dt = declaredTypeMap.get(elementTypeArg);
                     if (dt == null) {
@@ -256,7 +256,7 @@ public final class CompilationUnitValidator {
         }).forEach(new Procedure<Field>() {
             @Override
             public void value(final Field mapField) {
-                mapField.getTypeArguments().forEach(new Procedure<String>() {
+                mapField.getTypeArgs().forEach(new Procedure<String>() {
                     @Override
                     public void value(final String typeArg) {
                         if (!primitiveTypes_.contains(typeArg.toLowerCase())) {

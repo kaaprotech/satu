@@ -388,7 +388,7 @@ public final class ModelDeltaBuilderCompiler extends AbstractModelCompiler {
                     if (field.getFieldTypeCategory() == FieldTypeCategory.Set) {
                         out(5, field.getName() + " = SatuUtil.buildKeyDelta(" + field.getName() + "_.valuesView());");
                     }
-                    else if (isTypeMutable(field.getTypeArguments().get(1))) {
+                    else if (isTypeMutable(field.getTypeArgs().get(1))) {
                         out(5, field.getName() + " = SatuUtil.buildKeyModelDeltaPairDelta(" + field.getName() + "_.valuesView());");
                     }
                     else {

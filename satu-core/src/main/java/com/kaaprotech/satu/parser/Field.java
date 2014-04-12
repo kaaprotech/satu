@@ -86,7 +86,7 @@ public final class Field {
         initializer_ = Initializer;
     }
 
-    public MutableList<String> getTypeArguments() {
+    public MutableList<String> getTypeArgs() {
         return typeArguments_;
     }
 
