@@ -104,9 +104,8 @@ public abstract class AbstractModelCompiler {
     public final String getImmutableColType(final Field field) {
         switch (field.getFieldTypeCategory()) {
         case Set:
-            return "ImmutableSet<" + field.getTypeArgs().get(0) + ">";
         case Map:
-            return "ImmutableMap<" + field.getTypeArgs().get(0) + ", " + field.getTypeArgs().get(1) + ">";
+            return CompilerUtil.getFieldType(field);
         default:
             throw new RuntimeException("Unsupported FieldTypeCategory " + field.getFieldTypeCategory());
         }
@@ -134,15 +133,7 @@ public abstract class AbstractModelCompiler {
     }
 
     public final String javaTypeName(final String typeName) {
-        if (cu_.getDeclaredTypesMap().containsKey(typeName)) {
-            return typeName;
-        }
-        for (PrimitiveType pt : PrimitiveType.values()) {
-            if (pt.name().equals(typeName)) {
-                return pt.getWrapperClass();
-            }
-        }
-        return typeName;
+        return CompilerUtil.javaTypeName(typeName);
     }
 
     public final boolean isCollectionType(final Field field) {
@@ -425,7 +416,7 @@ public abstract class AbstractModelCompiler {
             case key:
                 return getFieldType(field);
             case val:
-                return "MutableSet<" + field.getTypeArgs().get(0) + ">";
+                return "MutableSet<" + javaTypeName(field.getTypeArgs().get(0)) + ">";
             default:
                 throw new RuntimeException("Unexpected enum " + field.getModifier());
             }
@@ -434,8 +425,8 @@ public abstract class AbstractModelCompiler {
             case key:
                 return getFieldType(field);
             case val:
-                final String valueType = isMapValueTypeMutable(field) ? field.getTypeArgs().get(1) + ".Builder" : field.getTypeArgs().get(1);
-                return "MutableMap<" + field.getTypeArgs().get(0) + ", " + valueType + ">";
+                final String valueType = isMapValueTypeMutable(field) ? field.getTypeArgs().get(1) + ".Builder" : javaTypeName(field.getTypeArgs().get(1));
+                return "MutableMap<" + javaTypeName(field.getTypeArgs().get(0)) + ", " + valueType + ">";
             default:
                 throw new RuntimeException("Unexpected enum " + field.getModifier());
             }
@@ -450,14 +441,14 @@ public abstract class AbstractModelCompiler {
             final StringBuilder sb = new StringBuilder();
             if (!isMapValueTypeMutable(field)) {
                 sb.append("KeyValuePairDelta<");
-                sb.append(field.getTypeArgs().get(0));
+                sb.append(javaTypeName(field.getTypeArgs().get(0)));
                 sb.append(", ");
-                sb.append(field.getTypeArgs().get(1));
+                sb.append(javaTypeName(field.getTypeArgs().get(1)));
                 sb.append(">");
                 return sb.toString();
             }
             sb.append("KeyModelDeltaPairDelta<");
-            sb.append(field.getTypeArgs().get(0));
+            sb.append(javaTypeName(field.getTypeArgs().get(0)));
             sb.append(", ");
             sb.append(CompilerUtil.getKeyFieldType(cu_.getDeclaredTypesMap().get(field.getTypeArgs().get(1))));
             sb.append(", ");
@@ -487,7 +478,7 @@ public abstract class AbstractModelCompiler {
             case key:
                 return getFieldType(field);
             case val:
-                return "ImmutableList<KeyDelta<" + field.getTypeArgs().get(0) + ">>";
+                return "ImmutableList<KeyDelta<" + javaTypeName(field.getTypeArgs().get(0)) + ">>";
             default:
                 throw new RuntimeException("Unexpected enum " + field.getModifier());
             }
@@ -521,7 +512,7 @@ public abstract class AbstractModelCompiler {
             case key:
                 return getFieldType(field);
             case val:
-                return "MutableMap<" + field.getTypeArgs().get(0) + ", KeyDelta.Builder<" + field.getTypeArgs().get(0) + ">>";
+                return "MutableMap<" + javaTypeName(field.getTypeArgs().get(0)) + ", KeyDelta.Builder<" + javaTypeName(field.getTypeArgs().get(0)) + ">>";
             default:
                 throw new RuntimeException("Unexpected enum " + field.getModifier());
             }
@@ -532,17 +523,17 @@ public abstract class AbstractModelCompiler {
             case val:
                 final StringBuilder sb = new StringBuilder();
                 sb.append("MutableMap<");
-                sb.append(field.getTypeArgs().get(0));
+                sb.append(javaTypeName(field.getTypeArgs().get(0)));
                 if (!isMapValueTypeMutable(field)) {
                     sb.append(", KeyValuePairDelta.Builder<");
-                    sb.append(field.getTypeArgs().get(0));
+                    sb.append(javaTypeName(field.getTypeArgs().get(0)));
                     sb.append(", ");
-                    sb.append(field.getTypeArgs().get(1));
+                    sb.append(javaTypeName(field.getTypeArgs().get(1)));
                     sb.append(">>");
                     return sb.toString();
                 }
                 sb.append(", KeyModelDeltaPairDelta.Builder<");
-                sb.append(field.getTypeArgs().get(0));
+                sb.append(javaTypeName(field.getTypeArgs().get(0)));
                 sb.append(", ");
                 sb.append(CompilerUtil.getKeyFieldType(cu_.getDeclaredTypesMap().get(field.getTypeArgs().get(1))));
                 sb.append(", ");
@@ -562,7 +553,7 @@ public abstract class AbstractModelCompiler {
     public final String paramTypeForDeltaBuilderAddMethod(final Field field) {
         switch (field.getFieldTypeCategory()) {
         case Set:
-            return "KeyDelta<" + field.getTypeArgs().getFirst() + ">";
+            return "KeyDelta<" + javaTypeName(field.getTypeArgs().getFirst()) + ">";
         case Map:
             if (isMapValueTypeMutable(field)) {
                 final DeclaredType dt = cu_.getDeclaredTypesMap().get(field.getTypeArgs().get(1));

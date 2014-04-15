@@ -37,30 +37,39 @@ import com.kaaprotech.satu.test.model.SatuTestModel;
 public class TestSatuToJava {
 
     private final SatuTestKey KEY_1 = new SatuTestKey(
+            1,
             1L,
             true,
             'a',
             (byte) 0,
             1.1f,
             Sets.immutable.of(SatuTestEnum.FirstEnumMember, SatuTestEnum.SecondEnumMember),
-            Maps.immutable.of("Key1", 1.1d, "Key2", 2.2d));
+            Maps.immutable.of("Key1", 1.1d, "Key2", 2.2d),
+            Sets.immutable.of(1, 2),
+            Maps.immutable.of(1, 1, 2, 2));
 
     // Equal to KEY_1
     private final SatuTestKey KEY_2 = new SatuTestKey(
+            1,
             1L,
             true, 'a',
             (byte) 0, 1.1f,
             Sets.immutable.of(SatuTestEnum.SecondEnumMember, SatuTestEnum.FirstEnumMember),
-            Maps.immutable.of("Key2", 2.2d, "Key1", 1.1d));
+            Maps.immutable.of("Key2", 2.2d, "Key1", 1.1d),
+            Sets.immutable.of(2, 1),
+            Maps.immutable.of(2, 2, 1, 1));
 
     private final SatuTestKey KEY_3 = new SatuTestKey(
+            1,
             1L,
             true,
             'a',
             (byte) 1, // Differs
             1.1f,
             Sets.immutable.of(SatuTestEnum.FirstEnumMember, SatuTestEnum.SecondEnumMember),
-            Maps.immutable.of("Key1", 1.1d, "Key2", 2.2d));
+            Maps.immutable.of("Key1", 1.1d, "Key2", 2.2d),
+            Sets.immutable.of(2, 1),
+            Maps.immutable.of(1, 1, 2, 2));
 
     @Test
     public void testEnum() {

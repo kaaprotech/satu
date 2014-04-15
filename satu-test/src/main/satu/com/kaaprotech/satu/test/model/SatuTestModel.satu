@@ -51,10 +51,16 @@ class SatuTestModel {
     val setOfImportedTypes : Set<DateTime>; // Currently only DateTime is supported
 
     val mapOfImportedTypes : Map<DateTime, DateTime>;
+
+    val setOfPrimitiveTypes : Set<Int>;
+
+    val mapOfPrimitiveTypes : Map<Int, Int>;
 }
 
 // Models are not permitted in a key class field
 key class SatuTestKey {
+
+    val intField : Int;
 
     val longField : Long;
 
@@ -69,6 +75,10 @@ key class SatuTestKey {
     val setOfEnumsField : Set<SatuTestEnum>;
 
     val mapOfStringDoubleField : Map<String, Double>;
+
+    val setOfPrimitiveTypes : Set<Int>;
+
+    val mapOfPrimitiveTypes : Map<Int, Int>;
 }
 
 enum SatuTestEnum { FirstEnumMember, SecondEnumMember, ThirdEnumMember, ForthEnumMember }

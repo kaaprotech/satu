@@ -53,31 +53,40 @@ public final class CompilerUtil {
 		default:
 			throw new RuntimeException("Unexpected enum " + dt.getDeclaredTypeCategory());
 		}
-	}
+    }
 
-	public static Field getKeyField(final DeclaredType dt) {
-		return dt.getFields().detect(new Predicate<Field>() {
-			@Override
-			public boolean accept(final Field field) {
-				return field.getModifier() == FieldModifier.key;
-			}
-		});
-	}
+    public static Field getKeyField(final DeclaredType dt) {
+        return dt.getFields().detect(new Predicate<Field>() {
+            @Override
+            public boolean accept(final Field field) {
+                return field.getModifier() == FieldModifier.key;
+            }
+        });
+    }
 
-	public static String getFieldType(final Field field) {
-		switch (field.getFieldTypeCategory()) {
-		case Primitive:
-			return PrimitiveType.valueOf(field.getTypeName()).getWrapperClass();
-		case ImportedType:
-			return ImportedType.valueOf(field.getTypeName()).getWrapperClass();
-		case DeclaredType:
-			return field.getTypeName();
-		case Set:
-			return "ImmutableSet<" + field.getTypeArgs().get(0) + ">";
-		case Map:
-			return "ImmutableMap<" + field.getTypeArgs().get(0) + ", " + field.getTypeArgs().get(1) + ">";
-		default:
-			throw new RuntimeException("Unexpected enum " + field.getFieldTypeCategory());
-		}
-	}
+    public static String javaTypeName(final String typeName) {
+        for (PrimitiveType pt : PrimitiveType.values()) {
+            if (pt.name().equals(typeName)) {
+                return pt.getWrapperClass();
+            }
+        }
+        return typeName;
+    }
+
+    public static String getFieldType(final Field field) {
+        switch (field.getFieldTypeCategory()) {
+        case Primitive:
+            return PrimitiveType.valueOf(field.getTypeName()).getWrapperClass();
+        case ImportedType:
+            return ImportedType.valueOf(field.getTypeName()).getWrapperClass();
+        case DeclaredType:
+            return field.getTypeName();
+        case Set:
+            return "ImmutableSet<" + javaTypeName(field.getTypeArgs().get(0)) + ">";
+        case Map:
+            return "ImmutableMap<" + javaTypeName(field.getTypeArgs().get(0)) + ", " + javaTypeName(field.getTypeArgs().get(1)) + ">";
+        default:
+            throw new RuntimeException("Unexpected enum " + field.getFieldTypeCategory());
+        }
+    }
 }
