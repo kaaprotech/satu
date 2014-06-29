@@ -17,6 +17,7 @@
 package com.kaaprotech.satu.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -142,6 +143,19 @@ public class TestSatuToJava {
         final SatuTestModel base2 = base1.toBuilder().setModelField(modelField.toBuilder()).build();
         assertNotNull(base2.getModelField());
         assertEquals(base2.getModelField(), modelField);
+    }
+
+    @Test
+    public void testModelDeltaWithUnmodifiedModleField() {
+        final SatuTestModel base1 = SatuTestModel.newBuilder(1).build();
+        final SatuTestModel modelField = SatuTestModel.newBuilder(2).build();
+        final SatuTestModel base2 = base1.toBuilder().setModelField(modelField.toBuilder()).build();
+        assertNotNull(base2.getModelField());
+        SatuTestModel.Delta delta1 = base2.toBuilder().setIntField(Integer.valueOf(11223344)).reconcile();
+        assertNotNull(delta1);
+        assertTrue(delta1.hasIntField());
+        assertEquals(delta1.getIntField(), Integer.valueOf(11223344));
+        assertFalse(delta1.hasModelField());
     }
 
     @Test

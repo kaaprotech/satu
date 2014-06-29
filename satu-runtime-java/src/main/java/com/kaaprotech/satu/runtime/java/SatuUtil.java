@@ -515,12 +515,15 @@ public final class SatuUtil {
             delta = emptyBuilder.reconcile(DeltaType.DELETE, refModel);
         }
 
-        if (deltaBuilder != null && deltaBuilder.getKey().equals(delta.getKey())) {
+        if (deltaBuilder != null && delta != null && deltaBuilder.getKey().equals(delta.getKey())) {
             deltaBuilder.addDelta(delta);
             setter.set(deltaBuilder);
         }
-        else {
+        else if (delta != null) {
             setter.set(delta.toDeltaBuilder());
+        }
+        else {
+            setter.set(null);
         }
     }
 
