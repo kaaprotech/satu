@@ -111,7 +111,8 @@ public final class ModelCompiler extends AbstractModelCompiler {
     public void compileClassStart() {
         out("public final class " + dt_.getName() + " implements Model<" + getKeyFieldType() + ", " + dt_.getName() + ".Builder>, Comparable<" + dt_.getName() + ">, Serializable {");
         out();
-        out(1, "private static final long serialVersionUID = 1L;");
+        final long serialVersionUID = serialVersionUID();
+        out(1, "private static final long serialVersionUID = " + serialVersionUID + "L;");
     }
 
     public void compileToBuilderMethod() {

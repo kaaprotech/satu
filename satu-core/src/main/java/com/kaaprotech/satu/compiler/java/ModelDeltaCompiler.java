@@ -48,7 +48,8 @@ public final class ModelDeltaCompiler extends AbstractModelCompiler {
         out(1, "public static final class Delta extends AbstractDelta implements ModelDelta<" + getKeyFieldType() + ", " + dt_.getName() + ".Builder, " +
                 dt_.getName() + ".Delta.Builder>, Comparable<" + dt_.getName() + ".Delta>, Serializable {");
         out();
-        out(2, "private static final long serialVersionUID = 1L;");
+        final long serialVersionUID = serialVersionUID();
+        out(2, "private static final long serialVersionUID = " + serialVersionUID + "L;");
     }
 
     public void compileDeltaFieldMembers() {

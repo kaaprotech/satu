@@ -19,7 +19,14 @@ package com.kaaprotech.satu.compiler.java;
 import static com.kaaprotech.satu.compiler.java.CompilerUtil.LS;
 import static com.kaaprotech.satu.compiler.java.CompilerUtil.TAB;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Comparator;
+import java.util.List;
 
 import com.gs.collections.api.block.predicate.Predicate;
 import com.gs.collections.api.block.procedure.Procedure;
@@ -295,7 +302,7 @@ public abstract class AbstractModelCompiler {
         out(1, "public int hashCode() {");
         int arg1 = getHashCodeBuilderArg(dt_.getName());
         int arg2 = getHashCodeBuilderArg(new StringBuilder(dt_.getName()).reverse().toString());
-        out(2, "return new	HashCodeBuilder(" + arg1 + ", " + arg2 + ")");
+        out(2, "return new HashCodeBuilder(" + arg1 + ", " + arg2 + ")");
         for (Field field : dt_.getFields()) {
             out(4, ".append(" + field.getName() + "_)");
         }
@@ -558,7 +565,7 @@ public abstract class AbstractModelCompiler {
             if (isMapValueTypeMutable(field)) {
                 final DeclaredType dt = cu_.getDeclaredTypesMap().get(field.getTypeArgs().get(1));
                 final Field key = getKeyField(dt);
-                return "KeyModelDeltaPairDelta<" + field.getTypeArgs().get(0) + ", " + key.getJavaTypeName() + ", " + dt.getName() + ".Delta, " + dt.getName() + ".Delta.Builder>";
+                return "KeyModelDeltaPairDelta<" + javaTypeName(field.getTypeArgs().get(0)) + ", " + key.getJavaTypeName() + ", " + dt.getName() + ".Delta, " + dt.getName() + ".Delta.Builder>";
             }
             return "KeyValuePairDelta<" + javaTypeName(field.getTypeArgs().get(0)) + ", " + javaTypeName(field.getTypeArgs().get(1)) + ">";
         default:
@@ -583,4 +590,53 @@ public abstract class AbstractModelCompiler {
             }
         }
     };
+
+    public final long serialVersionUID() {
+        if (dt_.getDeclaredTypeCategory() == DeclaredTypeCategory.Enum) {
+            return 0L;
+        }
+
+        try {
+            final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            final DataOutputStream dout = new DataOutputStream(bout);
+
+            dout.writeUTF(dt_.getName());
+
+            final List<Field> sortedFields = dt_.getFields().toSortedList(new Comparator<Field>() {
+                public int compare(final Field f1, final Field f2) {
+                    return f1.getName().compareTo(f2.getName());
+                }
+            });
+
+            for (final Field field : sortedFields) {
+                dout.writeUTF(field.getName());
+
+                // Exclude type parameters
+                final String fieldType = CompilerUtil.getFieldType(field);
+                final int index = fieldType.indexOf("<");
+                if (index < 0) {
+                    dout.writeUTF(fieldType);
+                }
+                else {
+                    dout.writeUTF(fieldType.substring(0, index));
+                }
+            }
+
+            dout.flush();
+
+            MessageDigest md = MessageDigest.getInstance("SHA");
+            byte[] hashBytes = md.digest(bout.toByteArray());
+            long hash = 0;
+            for (int i = Math.min(hashBytes.length, 8) - 1; i >= 0; i--) {
+                hash = (hash << 8) | (hashBytes[i] & 0xFF);
+            }
+            return hash;
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

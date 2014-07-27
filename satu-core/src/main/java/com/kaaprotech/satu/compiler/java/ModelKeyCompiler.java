@@ -71,14 +71,15 @@ public final class ModelKeyCompiler extends AbstractModelCompiler {
     public void compileClassStart() {
         out("public final class " + dt_.getName() + " implements Identity<" + getKeyFieldType() + ">, Comparable<" + dt_.getName() + ">, Serializable {");
         out();
-        out(1, "private static final long serialVersionUID = 1L;");
+        final long serialVersionUID = serialVersionUID();
+        out(1, "private static final long serialVersionUID = " + serialVersionUID + "L;");
     }
 
     public void compileCompareTo() {
         out();
         out(1, "@Override");
         out(1, "public int compareTo(final " + dt_.getName() + " rhs) {");
-        out(2, "return	new	CompareToBuilder()");
+        out(2, "return new CompareToBuilder()");
         for (Field field : dt_.getFields()) {
             if (isCollectionType(field)) {
                 out(4, ".append(" + field.getName() + "_.toSortedList().toArray(), rhs." + field.getName() + "_.toSortedList().toArray())");

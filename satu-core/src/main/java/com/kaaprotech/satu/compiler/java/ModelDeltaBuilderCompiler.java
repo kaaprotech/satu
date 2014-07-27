@@ -360,7 +360,7 @@ public final class ModelDeltaBuilderCompiler extends AbstractModelCompiler {
         out(4, "final BitSet flags = (BitSet) " + DBS + ".clone();");
         out();
 
-        out(4, "if (flags.nextSetBit(0) < 0) {");
+        out(4, "if (getDeltaType() == DeltaType.UPDATE && flags.nextSetBit(0) < 0) {");
         out(5, "return " + REF + ";");
         out(4, "}");
 
@@ -412,7 +412,7 @@ public final class ModelDeltaBuilderCompiler extends AbstractModelCompiler {
         });
 
         out();
-        out(4, "if (flags.nextSetBit(0) < 0) {");
+        out(4, "if (getDeltaType() == DeltaType.UPDATE && flags.nextSetBit(0) < 0) {");
         out(5, "return " + REF + ";");
         out(4, "}");
 

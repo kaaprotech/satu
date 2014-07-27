@@ -48,6 +48,8 @@ class SatuTestModel {
 
     val mapOfModelsField : Map<SatuTestEnum, SatuTestModel>;  // Note the key type of the map doesn't need to match the key type of the model
 
+    val mapOfModelsFieldWithSameKeyType : Map<Int, SatuTestModel>;  // Map and model have the same key type resulting in extra shortcut methods generated on the builder
+
     val setOfImportedTypes : Set<DateTime>; // Currently only DateTime is supported
 
     val mapOfImportedTypes : Map<DateTime, DateTime>;

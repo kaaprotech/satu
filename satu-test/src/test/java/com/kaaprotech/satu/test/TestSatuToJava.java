@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.joda.time.DateTime;
@@ -156,6 +157,26 @@ public class TestSatuToJava {
         assertTrue(delta1.hasIntField());
         assertEquals(delta1.getIntField(), Integer.valueOf(11223344));
         assertFalse(delta1.hasModelField());
+
+        final SatuTestModel.Delta updateDelta = base2.toDelta(DeltaType.UPDATE);
+        assertNotNull(updateDelta);
+        assertSame(updateDelta.getDeltaType(), DeltaType.UPDATE);
+        assertTrue(updateDelta.hasModelField());
+        assertNotNull(updateDelta.getModelField());
+        assertSame(updateDelta.getModelField().getDeltaType(), DeltaType.ADD);
+
+        final SatuTestModel.Delta addDelta = base2.toDelta(DeltaType.ADD);
+        assertNotNull(addDelta);
+        assertSame(addDelta.getDeltaType(), DeltaType.ADD);
+        assertTrue(addDelta.hasModelField());
+        assertNotNull(addDelta.getModelField());
+        assertSame(addDelta.getModelField().getDeltaType(), DeltaType.ADD);
+
+        final SatuTestModel.Delta deleteDelta = base2.toDelta(DeltaType.DELETE);
+        assertNotNull(deleteDelta);
+        assertTrue(deleteDelta.hasModelField());
+        assertNotNull(deleteDelta.getModelField());
+        assertSame(deleteDelta.getModelField().getDeltaType(), DeltaType.DELETE);
     }
 
     @Test

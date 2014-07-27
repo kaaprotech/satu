@@ -499,7 +499,6 @@ public final class SatuUtil {
             final M emptyModel = builder.buildEmpty();
             delta = builder.reconcile(DeltaType.ADD, emptyModel);
         }
-
         else if (refModel != null && model != null) {
             if (refModel.getKey().equals(model.getKey())) {
                 delta = model.toBuilder().reconcile(DeltaType.UPDATE, refModel);
