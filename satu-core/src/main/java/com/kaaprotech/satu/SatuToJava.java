@@ -42,8 +42,8 @@ public class SatuToJava {
         compiler_ = new Compiler();
     }
 
-    public void generate(final String modelFile, final String encoding) {
-        final CompilationUnit cu = parser_.parse(modelFile, encoding);
+    public void generate(final String modelFile, final String encoding, boolean jsonCompatible) {
+        final CompilationUnit cu = parser_.parse(modelFile, encoding, jsonCompatible);
         validator_.validate(cu);
         compiler_.compile(out_, cu);
     }
@@ -62,7 +62,7 @@ public class SatuToJava {
             final SatuToJava modelToJava = new SatuToJava(cmdLineValues.getOutDirectory());
             for (String modelFile : cmdLineValues.getModelFiles()) {
                 System.out.println("Starting Satu Java code generation for model file: " + modelFile);
-                modelToJava.generate(modelFile, null);
+                modelToJava.generate(modelFile, null, cmdLineValues.isJsonCompatible());
             }
 
             System.out.println("Satu Java code generation complete for " + cmdLineValues.getModelFiles().length + " model files to output directory: " + cmdLineValues.getOutDirectory());

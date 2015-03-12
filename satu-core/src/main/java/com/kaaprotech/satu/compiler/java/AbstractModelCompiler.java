@@ -252,6 +252,9 @@ public abstract class AbstractModelCompiler {
     protected final void compileIdentityMethods() {
         out();
         out(1, "@Override");
+        if (cu_.isJsonCompatible()) {
+            out(1, "@JsonIgnore");
+        }
         out(1, "public " + getKeyFieldType() + " getKey() {");
         if (dt_.getDeclaredTypeCategory() == DeclaredTypeCategory.Key) {
             out(2, "return this;");
@@ -385,15 +388,26 @@ public abstract class AbstractModelCompiler {
         out(1, visibility + " " + dt_.getName() + "(");
         for (int i = 0; i < dt_.getFields().size(); i++) {
             final Field field = dt_.getFields().get(i);
+
+            String prefix = "";
+            if (cu_.isJsonCompatible()) {
+                prefix = "@JsonProperty(\"" + field.getName() + "\") ";
+            }
             if (i + 1 < dt_.getFields().size()) {
-                out(3, getFieldType(field) + " " + field.getName() + ",");
+                out(3, prefix + getFieldType(field) + " " + field.getName() + ",");
             }
             else {
-                out(3, getFieldType(field) + " " + field.getName() + ") {");
+                out(3, prefix + getFieldType(field) + " " + field.getName() + ") {");
             }
         }
         for (Field field : dt_.getFields()) {
-            out(2, field.getName() + "_ = " + field.getName() + ";");
+            if (field.getFieldTypeCategory() == FieldTypeCategory.Map || field.getFieldTypeCategory() == FieldTypeCategory.Set) {
+                String createEmpty = String.format("(Immutable%1$s)%1$ss.immutable.of()", field.getFieldTypeCategory().name());
+                out(2, field.getName() + "_ = " + field.getName() + " != null ? " + field.getName() + " : " + createEmpty + ";");
+            }
+            else {
+                out(2, field.getName() + "_ = " + field.getName() + ";");
+            }
         }
         out(1, "}");
     }

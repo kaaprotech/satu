@@ -44,6 +44,9 @@
         <groupId>com.kaaprotech</groupId>
         <artifactId>satu-maven-plugin</artifactId>
         <version>1.0.6</version>
+          <configuration>
+              <jsonCompatible>true</jsonCompatible>
+          </configuration>
         <executions>
           <execution>
             <goals>

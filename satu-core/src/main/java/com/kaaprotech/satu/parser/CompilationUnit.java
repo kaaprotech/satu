@@ -31,6 +31,12 @@ public final class CompilationUnit {
 
     private final MutableList<ImportDeclaration> importDeclarations_ = Lists.mutable.of();
 
+    private final boolean jsonCompatible_;
+
+    public CompilationUnit(boolean jsonCompatible) {
+        this.jsonCompatible_ = jsonCompatible;
+    }
+
     public void setPackageDeclaration(String packageDeclaration) {
         packageDeclaration_ = packageDeclaration;
     }
@@ -58,5 +64,9 @@ public final class CompilationUnit {
 
     public void addImportDeclaration(final ImportDeclaration importDeclaration) {
         importDeclarations_.add(importDeclaration);
+    }
+
+    public boolean isJsonCompatible() {
+        return jsonCompatible_;
     }
 }

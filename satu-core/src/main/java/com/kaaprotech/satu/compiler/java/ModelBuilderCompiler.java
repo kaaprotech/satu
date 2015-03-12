@@ -269,7 +269,7 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
 
                 case Map:
                 case Set:
-                    out(4, "if (" + REF + " == null) {");
+                    out(4, "if (" + REF + " == null || " + REF + "." + methodNameForGetter(field) + "() == null) {");
                     out(5, field.getName() + "_ = " + getMutableColOf(field) + ";");
                     break;
                 }

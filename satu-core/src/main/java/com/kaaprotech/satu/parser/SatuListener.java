@@ -41,11 +41,15 @@ import com.kaaprotech.satu.antlr4.SatuParser.SetTypeContext;
 
 public class SatuListener extends SatuBaseListener {
 
-    private final CompilationUnit compilationUnit_ = new CompilationUnit();
+    private final CompilationUnit compilationUnit_;
 
     private final MutableStack<DeclaredType> typeStack_ = Stacks.mutable.of();
 
     private final MutableStack<Field> fieldStack_ = Stacks.mutable.of();
+
+    public SatuListener(boolean jsonCompatible) {
+        compilationUnit_ = new CompilationUnit(jsonCompatible);
+    }
 
     public CompilationUnit getCompilationUnit() {
         return compilationUnit_;

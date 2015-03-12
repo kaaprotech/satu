@@ -59,6 +59,13 @@ public final class ModelKeyCompiler extends AbstractModelCompiler {
         out();
         out("import com.gs.collections.api.map.ImmutableMap;");
         out("import com.gs.collections.api.set.ImmutableSet;");
+        out("import com.gs.collections.impl.factory.Maps;");
+        out("import com.gs.collections.impl.factory.Sets;");
+
+        if (cu_.isJsonCompatible()) {
+            out("import com.fasterxml.jackson.annotation.JsonIgnore;");
+            out("import com.fasterxml.jackson.annotation.JsonProperty;");
+        }
 
         out();
         out("import com.kaaprotech.satu.runtime.java.*;");
