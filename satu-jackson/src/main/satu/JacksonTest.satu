@@ -1,0 +1,42 @@
+package com.kaaprotech.satu.jackson;
+
+key class SimpleSatuKey {
+    val name : String;
+    val name2 : String;
+}
+
+class SimpleSatu {
+    key name : String;
+    val price : Int;
+    val description : String;
+}
+
+class SimpleMapSatu {
+    key name : String;
+    val price : Int;
+    val testStringMap : Map<String, String>;
+}
+
+class ModelMapSatu {
+    key name : String;
+    val price : Int;
+    val testMap : Map<String, SimpleSatu>;
+}
+
+class NestedMapSatu {
+    key name : String;
+    val price : Int;
+    val testStringMap : Map<String, String>;
+    val testMap : Map<String, SimpleSatu>;
+    val nestedMap : Map<String, ModelMapSatu>;
+}
+
+class SimpleSetSatu {
+    key name : String;
+    val testStringSet : Set<String>;
+}
+
+class ModelSetSatu {
+    key name : String;
+    val testModelSet : Set<SimpleSatuKey>;
+}

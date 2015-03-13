@@ -21,7 +21,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kaaprotech</groupId>
   <artifactId>satu</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
 
@@ -64,6 +64,7 @@
     <module>satu-runtime-java</module>
     <module>satu-maven-plugin</module>
     <module>satu-test</module>
+      <module>satu-jackson</module>
   </modules>
 
   <properties>
