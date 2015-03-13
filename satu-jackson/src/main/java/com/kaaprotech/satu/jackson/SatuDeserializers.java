@@ -51,7 +51,7 @@ public class SatuDeserializers extends Deserializers.Base {
                         if (t == JsonToken.VALUE_NULL) {
                             value = null;
                         } else if (elementDeserializer == null) {
-                            value = jp.readValuesAs(type.getContentType().getRawClass());
+                            value = jp.readValueAs(type.getContentType().getRawClass());
                         } else if (elementTypeDeserializer == null) {
                             value = elementDeserializer.deserialize(jp, context);
                         } else {
@@ -85,7 +85,7 @@ public class SatuDeserializers extends Deserializers.Base {
                             if (t == JsonToken.VALUE_NULL) {
                                 value = null;
                             } else if (elementDeserializer == null) {
-                                value = jp.readValuesAs(type.getContentType().getRawClass());
+                                value = jp.readValueAs(type.getContentType().getRawClass());
                             } else if (elementTypeDeserializer == null) {
                                 value = elementDeserializer.deserialize(jp, context);
                             } else {
