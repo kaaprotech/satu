@@ -55,6 +55,9 @@ public class SatuMojo extends AbstractMojo {
     @Parameter
     protected Set<String> excludes = new HashSet<String>();
 
+    @Parameter
+    protected boolean jsonCompatible = false;
+
     /**
      * Root directory where the Satu model definition files ({@code *.satu}) are located.
      */
@@ -114,7 +117,7 @@ public class SatuMojo extends AbstractMojo {
         Exception exception = null;
         for (File file : satuModelFiles) {
             try {
-                generator.generate(file.getPath(), encoding);
+                generator.generate(file.getPath(), encoding, jsonCompatible);
             }
             catch (Exception e) {
                 if (exception == null) {

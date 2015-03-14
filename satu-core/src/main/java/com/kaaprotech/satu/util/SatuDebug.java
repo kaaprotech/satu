@@ -39,7 +39,7 @@ public final class SatuDebug {
 
     public void debug(final String modelFileName) {
         final String modelFile = ClassLoader.getSystemResource(modelFileName).getPath();
-        final CompilationUnit cu = parser_.parse(modelFile, null);
+        final CompilationUnit cu = parser_.parse(modelFile, null, false);
         validator_.validate(cu);
         compiler_.compile(new PrintWriter(System.out), cu);
     }

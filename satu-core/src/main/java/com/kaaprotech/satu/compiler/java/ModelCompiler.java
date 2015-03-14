@@ -92,6 +92,11 @@ public final class ModelCompiler extends AbstractModelCompiler {
         out("import com.gs.collections.impl.factory.Maps;");
         out("import com.gs.collections.impl.factory.Sets;");
 
+        if (cu_.isJsonCompatible()) {
+            out("import com.fasterxml.jackson.annotation.JsonIgnore;");
+            out("import com.fasterxml.jackson.annotation.JsonProperty;");
+        }
+
         out();
         out("import com.kaaprotech.satu.runtime.java.*;");
 

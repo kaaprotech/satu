@@ -34,6 +34,8 @@ public final class CmdLineUtil {
 
     public static final String OUT = "out";
 
+    public static final String JSON = "json";
+
     public static String getCommandLineUsageMessage() {
         final HelpFormatter formatter = new HelpFormatter();
         final StringWriter sw = new StringWriter();
@@ -50,13 +52,14 @@ public final class CmdLineUtil {
             commandLine = parser.parse(getOptions(), args);
         }
         catch (ParseException e) {
-            System.err.println("Satu: Failed to parse cammand line arguments: " + e.getMessage());
+            System.err.println("Satu: Failed to parse command line arguments: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
         final String[] in = commandLine.getOptionValues(IN);
         final String out = commandLine.getOptionValue(OUT);
-        return new CommanndLineValuesImpl(in, out);
+        final boolean json = commandLine.hasOption(JSON);
+        return new CommanndLineValuesImpl(in, out, json);
     }
 
     @SuppressWarnings("static-access")
@@ -76,9 +79,12 @@ public final class CmdLineUtil {
 
         private final String outDirectory_;
 
-        public CommanndLineValuesImpl(String[] modelFiles, String outDirectory) {
+        private final boolean jsonCompatible_;
+
+        public CommanndLineValuesImpl(String[] modelFiles, String outDirectory, boolean jsonCompatible) {
             modelFiles_ = modelFiles;
             outDirectory_ = outDirectory;
+            jsonCompatible_ = jsonCompatible;
         }
 
         public String[] getModelFiles() {
@@ -88,6 +94,10 @@ public final class CmdLineUtil {
         public String getOutDirectory() {
             return outDirectory_;
         }
+
+        public boolean isJsonCompatible() {
+            return jsonCompatible_;
+        }
     }
 
     public interface CommanndLineValues {
@@ -95,5 +105,7 @@ public final class CmdLineUtil {
         String[] getModelFiles();
 
         String getOutDirectory();
+
+        boolean isJsonCompatible();
     }
 }

@@ -28,7 +28,7 @@ import com.kaaprotech.satu.antlr4.SatuParser;
 
 public final class SatuParserHelper {
 
-    public CompilationUnit parse(final String modelFile, final String encoding) {
+    public CompilationUnit parse(final String modelFile, final String encoding, boolean jsonCompatible) {
         final ANTLRFileStream charStream;
         try {
             charStream = new ANTLRFileStream(modelFile, encoding);
@@ -41,7 +41,7 @@ public final class SatuParserHelper {
         final SatuParser parser = new SatuParser(tokenStream);
         final ParserRuleContext tree = parser.compilationUnit();
         final ParseTreeWalker walker = new ParseTreeWalker();
-        final SatuListener listener = new SatuListener();
+        final SatuListener listener = new SatuListener(jsonCompatible);
         walker.walk(listener, tree);
         return listener.getCompilationUnit();
     }
