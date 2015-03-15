@@ -240,7 +240,7 @@ public final class ModelDeltaBuilderCompiler extends AbstractModelCompiler {
                 case Primitive:
                 case ImportedType:
                     out();
-                    out(3, "public Delta.Builder " + methodNameForSetter(field) + "(" + getDeltaBuilderFieldType(field) + " " + field.getName() + ") {");
+                    out(3, "public Delta.Builder " + methodNameForSetter(field) + "(final " + getDeltaBuilderFieldType(field) + " " + field.getName() + ") {");
                     out(4, "initForUpdate(" + DBF + "." + field.getName() + ");");
                     out(4, field.getName() + "_ = " + field.getName() + ";");
                     out(4, "return this;");

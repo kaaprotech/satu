@@ -139,7 +139,7 @@ public class TestSatuToJava {
     public void testModelWithNullModleField() {
         final SatuTestModel base1 = SatuTestModel.newBuilder(1).build();
         final SatuTestModel modelField = SatuTestModel.newBuilder(2).build();
-        final SatuTestModel base2 = base1.toBuilder().setModelField(modelField.toBuilder()).build();
+        final SatuTestModel base2 = base1.toBuilder().setModelField(modelField).build();
         assertNotNull(base2.getModelField());
         assertEquals(base2.getModelField(), modelField);
     }

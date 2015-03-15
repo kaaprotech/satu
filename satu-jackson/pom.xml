@@ -27,7 +27,7 @@
   <parent>
     <artifactId>satu</artifactId>
     <groupId>com.kaaprotech</groupId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -98,7 +98,7 @@
     <dependency>
       <groupId>com.kaaprotech</groupId>
       <artifactId>satu-runtime-java</artifactId>
-      <version>1.0.7</version>
+      <version>1.0.8</version>
       <scope>test</scope>
     </dependency>
     <dependency>

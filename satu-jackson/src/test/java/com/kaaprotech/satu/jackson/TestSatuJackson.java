@@ -48,7 +48,7 @@ public class TestSatuJackson {
     @Before
     public void setup() {
         objectMapper_ = new ObjectMapper().registerModule(new SatuModule());
-        
+
         simpleSatu1_ = SimpleSatu.newBuilder("simple1").setPrice(11).setDescription("desc1").build();
         simpleSatu2_ = SimpleSatu.newBuilder("simple2").setPrice(11).setDescription("desc2").build();
 
@@ -60,16 +60,16 @@ public class TestSatuJackson {
 
         modelMapSatu_ = ModelMapSatu.newBuilder("modelMap")
                 .setPrice(3)
-                .putTestMap("modelKey1", simpleSatu1_.toBuilder())
-                .putTestMap("modelKey2", simpleSatu2_.toBuilder())
+                .putTestMap("modelKey1", simpleSatu1_)
+                .putTestMap("modelKey2", simpleSatu2_)
                 .build();
 
         nestedMapSatu_ = NestedMapSatu.newBuilder("nestedMap")
                 .setPrice(4)
                 .putTestStringMap("key1", "value1")
-                .putTestMap("simpleKey1", simpleSatu1_.toBuilder())
-                .putTestMap("simpleKey2", simpleSatu2_.toBuilder())
-                .putNestedMap("modelKey1", modelMapSatu_.toBuilder())
+                .putTestMap("simpleKey1", simpleSatu1_)
+                .putTestMap("simpleKey2", simpleSatu2_)
+                .putNestedMap("modelKey1", modelMapSatu_)
                 .build();
 
         simpleSetSatu0_ = SimpleSetSatu.newBuilder("simpleSet").build();
@@ -80,7 +80,6 @@ public class TestSatuJackson {
         simpleKey2_ = new SimpleSatuKey("name2", "name22");
 
         modelSetSatu_ = ModelSetSatu.newBuilder("modelSet").addTestModelSet(simpleKey1_).addTestModelSet(simpleKey2_).build();
-
     }
 
     @Test

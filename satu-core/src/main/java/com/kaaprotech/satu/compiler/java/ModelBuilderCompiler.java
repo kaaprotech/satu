@@ -330,11 +330,21 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                 case Primitive:
                 case ImportedType:
                     out();
-                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForSetter(field) + "(" + getBuilderFieldType(field) + " " + field.getName() + ") {");
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForSetter(field) + "(final " + getBuilderFieldType(field) + " " + field.getName() + ") {");
                     out(3, "initForUpdate(" + BF + "." + field.getName() + ");");
                     out(3, field.getName() + "_ = " + field.getName() + ";");
                     out(3, "return this;");
                     out(2, "}");
+
+                    if (field.getFieldTypeCategory() == FieldTypeCategory.DeclaredType && isTypeMutable(field.getTypeName())) {
+                        out();
+                        out(2, "public " + dt_.getName() + ".Builder " + methodNameForSetter(field) + "(final " + getFieldType(field) + " " + field.getName() + ") {");
+                        out(3, "initForUpdate(" + BF + "." + field.getName() + ");");
+                        out(3, field.getName() + "_ = " + field.getName() + ".toBuilder();");
+                        out(3, "return this;");
+                        out(2, "}");
+                    }
+
                     break;
                 }
 
@@ -348,8 +358,7 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
 
                 if (field.getFieldTypeCategory() == FieldTypeCategory.Map && !isMapValueTypeMutable(field)) {
                     out();
-                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + javaTypeName(field.getTypeArgs().get(0)) + " key, final " + javaTypeName(field.getTypeArgs()
-                            .get(1)) + " value) {");
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + javaTypeName(field.getTypeArgs().get(0)) + " key, final " + javaTypeName(field.getTypeArgs().get(1)) + " value) {");
                     out(3, methodNameForGetter(field) + "().put(key, value);");
                     out(3, "return this;");
                     out(2, "}");
@@ -357,9 +366,14 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
 
                 if (isMapValueTypeMutable(field)) {
                     out();
-                    out(2,
-                            "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + javaTypeName(field.getTypeArgs().get(0)) + " key, final " + field.getTypeArgs().get(1) + ".Builder builder) {");
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + javaTypeName(field.getTypeArgs().get(0)) + " key, final " + field.getTypeArgs().get(1) + ".Builder builder) {");
                     out(3, methodNameForGetter(field) + "().put(key, builder);");
+                    out(3, "return this;");
+                    out(2, "}");
+
+                    out();
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForPut(field) + "(final " + javaTypeName(field.getTypeArgs().get(0)) + " key, final " + field.getTypeArgs().get(1) + " model) {");
+                    out(3, methodNameForGetter(field) + "().put(key, model.toBuilder());");
                     out(3, "return this;");
                     out(2, "}");
                 }
@@ -368,6 +382,12 @@ public final class ModelBuilderCompiler extends AbstractModelCompiler {
                     out();
                     out(2, "public " + dt_.getName() + ".Builder " + methodNameForAddOrReplace(field) + "(final " + field.getTypeArgs().get(1) + ".Builder builder) {");
                     out(3, methodNameForGetter(field) + "().put(builder.getKey(), builder);");
+                    out(3, "return this;");
+                    out(2, "}");
+
+                    out();
+                    out(2, "public " + dt_.getName() + ".Builder " + methodNameForAddOrReplace(field) + "(final " + field.getTypeArgs().get(1) + " model) {");
+                    out(3, methodNameForGetter(field) + "().put(model.getKey(), model.toBuilder());");
                     out(3, "return this;");
                     out(2, "}");
                 }
