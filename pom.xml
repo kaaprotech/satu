@@ -23,7 +23,7 @@
 
   <groupId>com.kaaprotech</groupId>
   <artifactId>satu</artifactId>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.0.7</version>
 
   <packaging>pom</packaging>
 
