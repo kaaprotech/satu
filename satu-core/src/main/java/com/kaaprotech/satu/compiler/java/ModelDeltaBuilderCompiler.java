@@ -60,7 +60,7 @@ public final class ModelDeltaBuilderCompiler extends AbstractModelCompiler {
 
     public void compileDeltaBuilderClassStart() {
         out();
-        out(2,"public static final class Builder extends AbstractDeltaBuilder<" + dt_.getName() + ".Delta> implements ModelDeltaBuilder<" + getKeyFieldType() + ", " +
+        out(2, "public static final class Builder extends AbstractDeltaBuilder<" + dt_.getName() + ".Delta> implements ModelDeltaBuilder<" + getKeyFieldType() + ", " +
                 dt_.getName() + ".Delta>, Comparable<" + dt_.getName() + ".Delta.Builder> {");
     }
 

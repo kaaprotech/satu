@@ -47,7 +47,7 @@ public class SatuListener extends SatuBaseListener {
 
     private final MutableStack<Field> fieldStack_ = Stacks.mutable.of();
 
-    public SatuListener(boolean jsonCompatible) {
+    public SatuListener(final boolean jsonCompatible) {
         compilationUnit_ = new CompilationUnit(jsonCompatible);
     }
 

@@ -42,7 +42,7 @@ public class SatuToJava {
         compiler_ = new Compiler();
     }
 
-    public void generate(final String modelFile, final String encoding, boolean jsonCompatible) {
+    public void generate(final String modelFile, final String encoding, final boolean jsonCompatible) {
         final CompilationUnit cu = parser_.parse(modelFile, encoding, jsonCompatible);
         validator_.validate(cu);
         compiler_.compile(out_, cu);

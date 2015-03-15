@@ -17,10 +17,10 @@
 package com.kaaprotech.satu.parser;
 
 public enum ReservedWord {
-	Integer,
-	Enum,
-	Class,
-	KeyClass,
-	Map,
-	Set
+    Integer,
+    Enum,
+    Class,
+    KeyClass,
+    Map,
+    Set
 }

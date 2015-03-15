@@ -16,14 +16,21 @@
 
 package com.kaaprotech.satu.jackson;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import org.joda.time.DateTime;
+import org.junit.Test;
+
 import com.gs.collections.impl.factory.Lists;
 import com.gs.collections.impl.factory.Maps;
 import com.gs.collections.impl.factory.Sets;
 import com.kaaprotech.satu.runtime.java.DeltaType;
-import org.joda.time.DateTime;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 @SuppressWarnings("boxing")
 public class TestSatuToJava {
@@ -45,7 +52,8 @@ public class TestSatuToJava {
             1,
             1L,
             true, 'a',
-            (byte) 0, 1.1f,
+            (byte) 0,
+            1.1f,
             Sets.immutable.of(SatuTestEnum.SecondEnumMember, SatuTestEnum.FirstEnumMember),
             Maps.immutable.of("Key2", 2.2d, "Key1", 1.1d),
             Sets.immutable.of(2, 1),

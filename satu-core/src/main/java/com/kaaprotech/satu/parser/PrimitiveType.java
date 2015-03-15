@@ -17,30 +17,30 @@
 package com.kaaprotech.satu.parser;
 
 public enum PrimitiveType {
-	String("String", "String"),
-	Boolean("boolean", "Boolean"),
-	Char("char", "Character"),
-	Byte("byte", "Byte"),
-	Short("short", "Short"),
-	Int("int", "Integer"),
-	Long("long", "Long"),
-	Float("float", "Float"),
-	Double("double", "Double");
+    String("String", "String"),
+    Boolean("boolean", "Boolean"),
+    Char("char", "Character"),
+    Byte("byte", "Byte"),
+    Short("short", "Short"),
+    Int("int", "Integer"),
+    Long("long", "Long"),
+    Float("float", "Float"),
+    Double("double", "Double");
 
-	private final String string_;
-	
-	private final String wrapperClass_;
+    private final String string_;
 
-	private PrimitiveType(String string, String wrapperClass) {
-		string_ = string;
-		wrapperClass_ = wrapperClass;
-	}
+    private final String wrapperClass_;
 
-	public String getString() {
-		return string_;
-	}
+    private PrimitiveType(String string, String wrapperClass) {
+        string_ = string;
+        wrapperClass_ = wrapperClass;
+    }
 
-	public String getWrapperClass() {
-		return wrapperClass_;
-	}
+    public String getString() {
+        return string_;
+    }
+
+    public String getWrapperClass() {
+        return wrapperClass_;
+    }
 }

@@ -70,6 +70,8 @@ public final class CmdLineUtil {
         options.addOption(in);
         final Option out = OptionBuilder.withArgName(OUT).hasArg().withDescription("Output root directory").isRequired().create(OUT);
         options.addOption(out);
+        final Option json = OptionBuilder.withArgName(JSON).hasArg(false).withDescription("Add json support to generated code").isRequired(false).create(JSON);
+        options.addOption(json);
         return options;
     }
 

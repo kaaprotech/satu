@@ -34,7 +34,7 @@ public final class CompilationUnit {
     private final boolean jsonCompatible_;
 
     public CompilationUnit(boolean jsonCompatible) {
-        this.jsonCompatible_ = jsonCompatible;
+        jsonCompatible_ = jsonCompatible;
     }
 
     public void setPackageDeclaration(String packageDeclaration) {

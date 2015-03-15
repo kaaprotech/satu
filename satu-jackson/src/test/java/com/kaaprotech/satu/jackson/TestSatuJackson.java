@@ -1,14 +1,31 @@
+/*
+ * Copyright 2014 Kaaprotech Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.kaaprotech.satu.jackson;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kaaprotech.satu.runtime.java.Model;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
+import java.io.IOException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kaaprotech.satu.runtime.java.Model;
 
 public class TestSatuJackson {
 
@@ -27,25 +44,33 @@ public class TestSatuJackson {
     private SimpleSatuKey simpleKey2_;
     private ModelSetSatu modelSetSatu_;
 
+    @SuppressWarnings("boxing")
     @Before
     public void setup() {
         objectMapper_ = new ObjectMapper().registerModule(new SatuModule());
+        
         simpleSatu1_ = SimpleSatu.newBuilder("simple1").setPrice(11).setDescription("desc1").build();
         simpleSatu2_ = SimpleSatu.newBuilder("simple2").setPrice(11).setDescription("desc2").build();
 
-        simpleMapSatu_ = SimpleMapSatu.newBuilder("simpleMap").setPrice(2)
+        simpleMapSatu_ = SimpleMapSatu.newBuilder("simpleMap")
+                .setPrice(2)
                 .putTestStringMap("simpleKey1", "simpleValue1")
-                .putTestStringMap("simpleKey2", "simpleValue2").build();
+                .putTestStringMap("simpleKey2", "simpleValue2")
+                .build();
 
-        modelMapSatu_ = ModelMapSatu.newBuilder("modelMap").setPrice(3)
+        modelMapSatu_ = ModelMapSatu.newBuilder("modelMap")
+                .setPrice(3)
                 .putTestMap("modelKey1", simpleSatu1_.toBuilder())
-                .putTestMap("modelKey2", simpleSatu2_.toBuilder()).build();
+                .putTestMap("modelKey2", simpleSatu2_.toBuilder())
+                .build();
 
-        nestedMapSatu_ = NestedMapSatu.newBuilder("nestedMap").setPrice(4)
+        nestedMapSatu_ = NestedMapSatu.newBuilder("nestedMap")
+                .setPrice(4)
                 .putTestStringMap("key1", "value1")
                 .putTestMap("simpleKey1", simpleSatu1_.toBuilder())
                 .putTestMap("simpleKey2", simpleSatu2_.toBuilder())
-                .putNestedMap("modelKey1", modelMapSatu_.toBuilder()).build();
+                .putNestedMap("modelKey1", modelMapSatu_.toBuilder())
+                .build();
 
         simpleSetSatu0_ = SimpleSetSatu.newBuilder("simpleSet").build();
         simpleSetSatu1_ = SimpleSetSatu.newBuilder("simpleSet1").addTestStringSet("set11").build();
@@ -72,10 +97,9 @@ public class TestSatuJackson {
         assertEquals(simpleSetSatu2_, roundtrip(simpleSetSatu2_));
 
         assertEquals(modelSetSatu_, roundtrip(modelSetSatu_));
-
     }
 
-    private <T extends Model> Model roundtrip(T myObject) throws IOException {
+    private <T extends Model<?, ?>> Model<?, ?> roundtrip(T myObject) throws IOException {
         String s = objectMapper_.writeValueAsString(myObject);
         return objectMapper_.readValue(s, myObject.getClass());
     }

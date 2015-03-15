@@ -28,7 +28,7 @@ import com.kaaprotech.satu.antlr4.SatuParser;
 
 public final class SatuParserHelper {
 
-    public CompilationUnit parse(final String modelFile, final String encoding, boolean jsonCompatible) {
+    public CompilationUnit parse(final String modelFile, final String encoding, final boolean jsonCompatible) {
         final ANTLRFileStream charStream;
         try {
             charStream = new ANTLRFileStream(modelFile, encoding);

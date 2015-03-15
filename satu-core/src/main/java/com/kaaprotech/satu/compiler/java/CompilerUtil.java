@@ -27,9 +27,9 @@ import com.kaaprotech.satu.parser.PrimitiveType;
 public final class CompilerUtil {
 
     public static final String BF = "BuilderField__";
-    
+
     public static final String DBF = "DeltaBuilderField__";
-    
+
     public static final String REF = "ref__";
 
     public static final String DT = "deltaType__";
@@ -42,17 +42,17 @@ public final class CompilerUtil {
 
     public static final String LS = System.getProperty("line.separator");
 
-    public static final String TAB = "    ";    
+    public static final String TAB = "    ";
 
-	public static String getKeyFieldType(final DeclaredType dt) {
-		switch (dt.getDeclaredTypeCategory()) {
-		case Key:
-			return dt.getName();
-		case Model:
-			return getFieldType(getKeyField(dt));
-		default:
-			throw new RuntimeException("Unexpected enum " + dt.getDeclaredTypeCategory());
-		}
+    public static String getKeyFieldType(final DeclaredType dt) {
+        switch (dt.getDeclaredTypeCategory()) {
+        case Key:
+            return dt.getName();
+        case Model:
+            return getFieldType(getKeyField(dt));
+        default:
+            throw new RuntimeException("Unexpected enum " + dt.getDeclaredTypeCategory());
+        }
     }
 
     public static Field getKeyField(final DeclaredType dt) {

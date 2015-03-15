@@ -175,8 +175,8 @@ public final class KeyDelta<K> extends AbstractDelta implements Comparable<KeyDe
         @Override
         public int compareTo(final Builder<K> rhs) {
             return new CompareToBuilder()
-                .append(getKey(), rhs.getKey())
-                .toComparison();
+                    .append(getKey(), rhs.getKey())
+                    .toComparison();
         }
     }
 }

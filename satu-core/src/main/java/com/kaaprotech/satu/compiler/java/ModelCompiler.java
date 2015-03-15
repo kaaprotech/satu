@@ -93,6 +93,7 @@ public final class ModelCompiler extends AbstractModelCompiler {
         out("import com.gs.collections.impl.factory.Sets;");
 
         if (cu_.isJsonCompatible()) {
+            out();
             out("import com.fasterxml.jackson.annotation.JsonIgnore;");
             out("import com.fasterxml.jackson.annotation.JsonProperty;");
         }
